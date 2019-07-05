@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>מי המפורסמת - משחק</title>
+     <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+</head>
+<body>
+
+<div id="person0">
+    <img id="person_image_0" src="" width="500">
+    <br>
+    <input id="person_0_option_1" type="radio" name="selection1"/><label for="person_0_option_1">option 1</label>
+    <input id="person_0_option_2" type="radio" name="selection1"/><label for="person_0_option_2">option 1</label>
+    <input id="person_0_option_3" type="radio" name="selection1"/><label for="person_0_option_3">option 1</label>
+    <input id="person_0_option_4" type="radio" name="selection1"/><label for="person_0_option_4">option 1</label>
+</div>
+<br><br>
+<div id="person1">
+    <img id="person_image_1" src="" width="500">
+    <br>
+    <input id="person_1_option_1" type="radio" name="selection2"/><label for="person_1_option_1">option 1</label>
+    <input id="person_1_option_2" type="radio" name="selection2"/><label for="person_1_option_2">option 1</label>
+    <input id="person_1_option_3" type="radio" name="selection2"/><label for="person_1_option_3">option 1</label>
+    <input id="person_1_option_4" type="radio" name="selection2"/><label for="person_1_option_4">option 1</label>
+</div>
+<br><br>
+<div id="person2">
+    <img id="person_image_2" src="" width="500">
+    <br>
+    <input id="person_2_option_1" type="radio" name="selection2"/><label for="person_2_option_1">option 1</label>
+    <input id="person_2_option_2" type="radio" name="selection2"/><label for="person_2_option_2">option 1</label>
+    <input id="person_2_option_3" type="radio" name="selection2"/><label for="person_2_option_3">option 1</label>
+    <input id="person_2_option_4" type="radio" name="selection2"/><label for="person_2_option_4">option 1</label>
+</div>
+<br><br>
+<div id="person3">
+    <img id="person_image_3" src="" width="500">
+    <br>
+    <input id="person_3_option_1" type="radio" name="selection2"/><label for="person_3_option_1">option 1</label>
+    <input id="person_3_option_2" type="radio" name="selection2"/><label for="person_3_option_2">option 1</label>
+    <input id="person_3_option_3" type="radio" name="selection2"/><label for="person_3_option_3">option 1</label>
+    <input id="person_3_option_4" type="radio" name="selection2"/><label for="person_3_option_4">option 1</label>
+</div>
+<br><br>
+<div id="person4">
+    <img id="person_image_4" src="" width="500">
+    <br>
+    <input id="person_4_option_1" type="radio" name="selection2"/><label for="person_1_option_1">option 1</label>
+    <input id="person_4_option_2" type="radio" name="selection2"/><label for="person_1_option_2">option 1</label>
+    <input id="person_4_option_3" type="radio" name="selection2"/><label for="person_1_option_3">option 1</label>
+    <input id="person_4_option_4" type="radio" name="selection2"/><label for="person_1_option_4">option 1</label>
+</div>
+<br><br>
+<input type="submit" value="שליחה">
+</body>
+</html>
+
+<script src="/static/jquery-3.1.1.min.js"></script>
+<script>
+    persons = {{data|safe}};
+    for (i=0; i < persons.length; i++) {
+        console.log('#person_image_' + i)
+        $('#person_image_' + i).attr("src",persons[i].image_url);
+        //debugger;
+        for (j=1; j< persons[i].options.length+1; j++) {
+            //debugger;
+            console.log('label[for=person_' + i + '_option_' + j + ']');
+            $('label[for=person_' + i + '_option_' + j + ']').html(JSON.stringify(persons[i].options[j-1]));
+        }
+     }
+</script>

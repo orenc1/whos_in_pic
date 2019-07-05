@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>מי המפורסמת - דף הבית</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+</head>
+<body>
+<h1>ברוכים הבאים למשחק "זהו מי בתמונה!"</h1>
+<h2>יש לבחור בקטגוריה אחת או יותר וללחוץ על "התחל". לאחר מכן יוצגו בפניכם אנשים מתוך הקטגוריות שבחרתם ותצטרכו לזהות מי המפורסמ/ת שמופיע/ה בתמונה.</h2>
+</body>
+<br/><br/><br/>
+<form action = "/game" method = "POST">
+    <input type="checkbox" name="israeli_actresses" value="israeli_actresses">שחקניות ישראליות<br>
+    <input type="checkbox" name="israeli_actors" value="israeli_actors">שחקנים ישראלים<br>
+    <input type="checkbox" name="israeli_singresses" value="israeli_actors">זמרות ישראליות<br>
+    <input type="checkbox" name="israeli_singers" value="israeli_actors">זמרים ישראלים<br>
+    <input type="submit" value="התחל">
+</form>
+</html>
+
+<script src="/static/jquery-3.1.1.min.js"></script>
+<script>
+
+</script>

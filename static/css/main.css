@@ -1,0 +1,39 @@
+header {
+  background-color: #DFB887;
+  height: 35px;
+  width: 100%;
+  opacity: .9;
+  margin-bottom: 10px;
+  align: center;
+}
+
+h1 {
+  background-color: lightgreen;
+  color: black;
+  height: 35px;
+  width: 100%;
+  opacity: .9;
+  margin-bottom: 10px;
+  direction: rtl;
+}
+
+h2 {
+  height: 35px;
+  width: 100%;
+  opacity: .9;
+  margin-bottom: 10px;
+  direction: rtl;
+}
+
+body {
+  margin-right: 100px;
+  margin-left: 100px;
+  margin-bottom: 0;
+  padding: 10;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  direction: rtl;
+}
+
+input {
+    margin: 10px;
+}
