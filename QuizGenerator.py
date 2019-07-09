@@ -26,16 +26,16 @@ class QuizGenerator:
         persons_dict_len = len(persons_dict)
         self.chosen_persons = []
         for i in range(0, Constants.NumberOfRounds):
-            pid = self.get_random_person(persons_dict_len + 1)
+            pid = self.get_random_person(persons_dict_len)
             while not self.add_image(persons_dict[pid]):
-                pid = self.get_random_person(persons_dict_len + 1)
+                pid = self.get_random_person(persons_dict_len)
             self.chosen_persons.append(persons_dict[pid])
 
         for person in self.chosen_persons:
             success = False
             while not success:
-                (success, options_ids) = self.get_different_options(person.id, persons_dict_len + 1)
-            options_ids = random.sample(range(1, persons_dict_len + 1), 3)
+                (success, options_ids) = self.get_different_options(person.id, persons_dict_len )
+            options_ids = random.sample(range(1, persons_dict_len), 3)
             person.options = [persons_dict[pid].name for pid in options_ids]
             person.options.append(person.name)
             random.shuffle(person.options)
