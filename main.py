@@ -13,17 +13,28 @@ def game():
     return render_template('game.html', data=jsoned_data)
 
 
-@app.route('/result', methods=['POST'])
+@app.route('/result', methods=['POST','GET'])
 def result():
-    answers_dict = request.form
+    answers_dict_raw = request.form
+    answers_dict = {}
     questions_list = session.get('questions')
-    response = ''
+    questions_list_ds = json.loads(questions_list)   # ds = Data Structure
 
-    for answer in answers_dict.keys():
-        response += answer + '\n'
+    for answer in answers_dict_raw.keys():
+        answers_dict[answer.split('_')[0]] = answer.split('_')[1].strip('"')
 
+    response_json = {}
+    for answer in answers_dict:
+        question = questions_list_ds[int(answer)-1]
+        single_result = {'answered': answers_dict[answer], 'correct': question['name']}
+        if answers_dict[answer] == question['name']:
+            single_result['result'] = 'true'
+        else:
+            single_result['result'] = 'false'
 
-    return 'submitted answeres: {}\nQuestions were: {}.'.format(response,questions_list)
+        response_json[answer] = single_result
+
+    return render_template('results.html', data=json.dumps(response_json))
 
 @app.route('/')
 def home():

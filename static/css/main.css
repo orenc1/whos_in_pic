@@ -4,7 +4,7 @@ header {
   width: 100%;
   opacity: .9;
   margin-bottom: 10px;
-  align: center;
+  direction: rtl;
 }
 
 h1 {
@@ -29,11 +29,16 @@ body {
   margin-right: 100px;
   margin-left: 100px;
   margin-bottom: 0;
-  padding: 10;
+  padding: 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   direction: rtl;
+  align: center;
 }
 
 input {
     margin: 10px;
+}
+
+table, th, td {
+  border: 1px solid black;
 }

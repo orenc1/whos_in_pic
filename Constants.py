@@ -3,4 +3,4 @@ Israeli_Actresses_Prefix = 'w/index.php?title=%D7%9E%D7%99%D7%95%D7%97%D7%93:%D7
 
 Categories = {'Israeli_Actresses': Israeli_Actresses_Prefix}
 
-NumberOfRounds = 3
+NumberOfRounds = 5

@@ -36,19 +36,27 @@
     '</div>'].join('\n');
     {% endraw %}
 
-    persons = {{data|safe}};
-    for (i = persons.length; i > 0; i--) {
-        var question_data = {
-            person_id: i
-        };
-        console.log('#person_image_' + i)
 
-        var QuestionDiv = Mustache.render(DivTemplate, {"person_id": i});
+    // p_ix = person index   ; o_ix = option index
+
+    persons = {{data|safe}};
+    for (p_ix = persons.length; p_ix > 0; p_ix--) {
+        var question_data = {
+            person_id: p_ix
+        };
+        console.log('#person_image_' + p_ix)
+
+        var QuestionDiv = Mustache.render(DivTemplate, {"person_id": p_ix});
         $('#MainFormId').prepend(QuestionDiv);
-        $('#person_image_' + i).attr("src",persons[i-1].image_url);
-        for (j=1; j < persons[i-1].options.length+1; j++) {
-            console.log('label[for=person_' + i + '_option_' + j + ']');
-            $('label[for=person_' + i + '_option_' + j + ']').html(JSON.stringify(persons[i-1].options[j-1]));
+        $('#person_image_' + p_ix).attr("src",persons[p_ix-1].image_url);
+        for (o_ix=1; o_ix < persons[p_ix-1].options.length+1; o_ix++) {
+            //debugger;
+            console.log('label[for=person_' + p_ix + '_option_' + o_ix + ']');
+            $('label[for=person_' + p_ix + '_option_' + o_ix + ']').html(JSON.stringify(persons[p_ix-1].options[o_ix-1]));
+            var current_id = 'person_' + p_ix.toString() + '_option_' + o_ix.toString();
+            console.log('requested id is: ' + current_id);
+
+            $('#' + current_id).attr('name',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]));
         }
      }
 </script>

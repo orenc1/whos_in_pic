@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+    <meta charset="UTF-8">
+    <title>התוצאה שלך</title>
+    <a href="/">חזרה למסך הראשי</a>
+    <h2>תוצאה</h2>
+</head>
+<body>
+    <table id="TableId" style="width:50%">
+        <tr>
+            <th>מס'</th>
+            <th>התשובה שלך</th>
+            <th>התשובה הנכונה</th>
+        </tr>
+    </table>
+</body>
+</html>
+
+
+<script>
+    results_dict = {{data|safe}}
+    var correct_answers = 0;
+    var table = document.getElementById("TableId");
+    // sr = single result
+    for (var sr in results_dict) {
+        var Color = '#009933';
+        //debugger;
+        if (results_dict[sr]['result'] == "true") {
+            correct_answers++;
+            Color = '#006400';
+        } else {
+            Color = '#FF0000';
+        }
+
+
+        var row = table.insertRow();
+        var question_num_cell = row.insertCell(0);
+        var answered_cell = row.insertCell(1);
+        var correct_cell = row.insertCell(2);
+
+        question_num_cell.innerHTML = sr;
+        question_num_cell.style.color = Color;
+        answered_cell.innerHTML = results_dict[sr]['answered'];
+        answered_cell.style.color = Color;
+
+        correct_cell.innerHTML = results_dict[sr]['correct'];
+        correct_cell.style.color = Color;
+
+
+        console.log(`question ${sr}, answered: ${results_dict[sr]['answered']}, correct: ${results_dict[sr]['correct']}`);
+    }
+
+
+</script>
