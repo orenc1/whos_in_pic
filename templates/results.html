@@ -15,6 +15,7 @@
             <th>התשובה הנכונה</th>
         </tr>
     </table>
+    <p id="SummaryId"></p>
 </body>
 </html>
 
@@ -22,14 +23,16 @@
 <script>
     results_dict = {{data|safe}}
     var correct_answers = 0;
+    var num_of_questions = 0;
     var table = document.getElementById("TableId");
     // sr = single result
     for (var sr in results_dict) {
+        num_of_questions++;
         var Color = '#009933';
         //debugger;
         if (results_dict[sr]['result'] == "true") {
             correct_answers++;
-            Color = '#006400';
+            Color = 'blue';
         } else {
             Color = '#FF0000';
         }
@@ -51,6 +54,11 @@
 
         console.log(`question ${sr}, answered: ${results_dict[sr]['answered']}, correct: ${results_dict[sr]['correct']}`);
     }
+    var score = Math.round(correct_answers * 100 / num_of_questions);
+    var summary = `זיהית נכון ${correct_answers} מתוך ${num_of_questions} תמונות ולכן ציונך הוא: ${score}`;
+    console.log(summary);
+    var summaryElement = document.getElementById("SummaryId");
+    summaryElement.innerHTML = summary;
 
 
 </script>

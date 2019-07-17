@@ -15,11 +15,15 @@
     <input type="checkbox" name="israeli_actors" value="israeli_actors">שחקנים ישראלים<br>
     <input type="checkbox" name="israeli_singresses" value="israeli_actors">זמרות ישראליות<br>
     <input type="checkbox" name="israeli_singers" value="israeli_actors">זמרים ישראלים<br>
-    <input type="submit" value="התחל">
+    <input type="submit" value="התחל" onclick="waitMsg()">
 </form>
+<br/>
+<p id="waitMsgId" style="color:red;"></p>
 </html>
 
 <script src="/static/jquery-3.1.1.min.js"></script>
 <script>
-
+function waitMsg() {
+    document.getElementById("waitMsgId").innerHTML = "נא להמתין מספר שניות עד שהמשחק ייטען...";
+}
 </script>

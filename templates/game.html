@@ -5,9 +5,9 @@
     <title>מי המפורסמת - משחק</title>
      <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
 </head>
-<body>
+<body oncontextmenu="return false;">
 	<a href="/">חזרה למסך הראשי</a>
-    <form id="MainFormId" action= "/result" method = "POST">
+    <form id="MainFormId" action="/result" method ="POST" onsubmit="return validateQuiz()">
         <input type="submit" value="שליחה">
     </form>
     <br><br>
@@ -29,10 +29,10 @@
     '<h2>תמונה מספר {{person_id}}</h2>',
     '<img id="person_image_{{person_id}}" src="" width="500">',
     '<br>',
-    '<input id="person_{{person_id}}_option_1" type="radio" name="option_1"/><label for="person_{{person_id}}_option_1"></label>',
-    '<input id="person_{{person_id}}_option_2" type="radio" name="option_2"/><label for="person_{{person_id}}_option_2"></label>',
-    '<input id="person_{{person_id}}_option_3" type="radio" name="option_3"/><label for="person_{{person_id}}_option_3"></label>',
-    '<input id="person_{{person_id}}_option_4" type="radio" name="option_4"/><label for="person_{{person_id}}_option_4"></label>',
+    '<input id="person_{{person_id}}_option_1" type="radio" name="" value=""/><label for="person_{{person_id}}_option_1"></label>',
+    '<input id="person_{{person_id}}_option_2" type="radio" name="" value=""/><label for="person_{{person_id}}_option_2"></label>',
+    '<input id="person_{{person_id}}_option_3" type="radio" name="" value=""/><label for="person_{{person_id}}_option_3"></label>',
+    '<input id="person_{{person_id}}_option_4" type="radio" name="" value=""/><label for="person_{{person_id}}_option_4"></label>',
     '</div>'].join('\n');
     {% endraw %}
 
@@ -56,7 +56,21 @@
             var current_id = 'person_' + p_ix.toString() + '_option_' + o_ix.toString();
             console.log('requested id is: ' + current_id);
 
-            $('#' + current_id).attr('name',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]));
+            $('#' + current_id).attr('value',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]));
+            $('#' + current_id).attr('name','question_'+ p_ix);
         }
+     }
+
+     function validateQuiz() {
+         var answered = 0;
+         for (var q=1; q <= persons.length; q++) {            
+            if (document.querySelector(`input[name="question_${q}"]:checked`) != null) {
+                answered ++;
+            }
+         }         
+         if (answered < persons.length) {
+            alert(`ענית רק על ${answered} מתוך ${persons.length} השאלות.`);
+            return false;
+         }
      }
 </script>

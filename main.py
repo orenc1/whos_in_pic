@@ -18,10 +18,10 @@ def result():
     answers_dict_raw = request.form
     answers_dict = {}
     questions_list = session.get('questions')
-    questions_list_ds = json.loads(questions_list)   # ds = Data Structure
+    questions_list_ds = json.loads(questions_list)   # ds = DeSerialized
 
     for answer in answers_dict_raw.keys():
-        answers_dict[answer.split('_')[0]] = answer.split('_')[1].strip('"')
+        answers_dict[answer.split('_')[1]] = answers_dict_raw[answer].split('_')[1].strip('"')
 
     response_json = {}
     for answer in answers_dict:
@@ -35,6 +35,7 @@ def result():
         response_json[answer] = single_result
 
     return render_template('results.html', data=json.dumps(response_json))
+
 
 @app.route('/')
 def home():
