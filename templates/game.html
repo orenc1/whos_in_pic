@@ -44,17 +44,16 @@
         var question_data = {
             person_id: p_ix
         };
-        console.log('#person_image_' + p_ix)
+        //console.log('#person_image_' + p_ix)
 
         var QuestionDiv = Mustache.render(DivTemplate, {"person_id": p_ix});
         $('#MainFormId').prepend(QuestionDiv);
         $('#person_image_' + p_ix).attr("src",persons[p_ix-1].image_url);
-        for (o_ix=1; o_ix < persons[p_ix-1].options.length+1; o_ix++) {
-            //debugger;
-            console.log('label[for=person_' + p_ix + '_option_' + o_ix + ']');
+        for (o_ix=1; o_ix < persons[p_ix-1].options.length+1; o_ix++) {            
+            //console.log('label[for=person_' + p_ix + '_option_' + o_ix + ']');
             $('label[for=person_' + p_ix + '_option_' + o_ix + ']').html(JSON.stringify(persons[p_ix-1].options[o_ix-1]));
             var current_id = 'person_' + p_ix.toString() + '_option_' + o_ix.toString();
-            console.log('requested id is: ' + current_id);
+            //console.log('requested id is: ' + current_id);
 
             $('#' + current_id).attr('value',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]));
             $('#' + current_id).attr('name','question_'+ p_ix);
@@ -73,4 +72,5 @@
             return false;
          }
      }
+
 </script>

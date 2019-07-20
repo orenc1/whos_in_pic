@@ -13,6 +13,7 @@
             <th>מס'</th>
             <th>התשובה שלך</th>
             <th>התשובה הנכונה</th>
+            <th>קטגוריה</th>
         </tr>
     </table>
     <p id="SummaryId"></p>
@@ -42,6 +43,7 @@
         var question_num_cell = row.insertCell(0);
         var answered_cell = row.insertCell(1);
         var correct_cell = row.insertCell(2);
+        var category_cell = row.insertCell(3);
 
         question_num_cell.innerHTML = sr;
         question_num_cell.style.color = Color;
@@ -51,12 +53,15 @@
         correct_cell.innerHTML = results_dict[sr]['correct'];
         correct_cell.style.color = Color;
 
+        category_cell.innerHTML = results_dict[sr]['category'];
+        category_cell.style.color = Color;
 
-        console.log(`question ${sr}, answered: ${results_dict[sr]['answered']}, correct: ${results_dict[sr]['correct']}`);
+
+        //console.log(`question ${sr}, answered: ${results_dict[sr]['answered']}, correct: ${results_dict[sr]['correct']}`);
     }
     var score = Math.round(correct_answers * 100 / num_of_questions);
     var summary = `זיהית נכון ${correct_answers} מתוך ${num_of_questions} תמונות ולכן ציונך הוא: ${score}`;
-    console.log(summary);
+    //console.log(summary);
     var summaryElement = document.getElementById("SummaryId");
     summaryElement.innerHTML = summary;
 

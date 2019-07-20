@@ -10,11 +10,8 @@
 <h2>יש לבחור בקטגוריה אחת או יותר וללחוץ על "התחל". לאחר מכן יוצגו בפניכם אנשים מתוך הקטגוריות שבחרתם ותצטרכו לזהות מי המפורסמ/ת שמופיע/ה בתמונה.</h2>
 </body>
 <br/><br/><br/>
-<form action = "/game" method = "POST">
-    <input type="checkbox" name="israeli_actresses" value="israeli_actresses">שחקניות ישראליות<br>
-    <input type="checkbox" name="israeli_actors" value="israeli_actors">שחקנים ישראלים<br>
-    <input type="checkbox" name="israeli_singresses" value="israeli_actors">זמרות ישראליות<br>
-    <input type="checkbox" name="israeli_singers" value="israeli_actors">זמרים ישראלים<br>
+<form action = "/game" method = "POST" id="MainFormId">
+    <div id="CategoriesDiv"></div>
     <input type="submit" value="התחל" onclick="waitMsg()">
 </form>
 <br/>
@@ -22,8 +19,21 @@
 </html>
 
 <script src="/static/jquery-3.1.1.min.js"></script>
+<script src="/static/mustache.min.js"></script>
+
+<script src="/static/jquery-3.1.1.min.js"></script>
 <script>
-function waitMsg() {
-    document.getElementById("waitMsgId").innerHTML = "נא להמתין מספר שניות עד שהמשחק ייטען...";
-}
+    {% raw %}
+    var CategoryTemplate = '<input type="checkbox" name="{{name}}" value="{{value}}">{{display_name}}<br>';    
+    {% endraw %}
+    categories = {{data|safe}};
+    for (const [key, value] of Object.entries(categories)) {
+        Category_CB = Mustache.render(CategoryTemplate, {"name": key, "display_name": value.display_name});
+        $('#CategoriesDiv').append(Category_CB);
+    }
+
+
+    function waitMsg() {
+        document.getElementById("waitMsgId").innerHTML = "נא להמתין מספר שניות עד שהמשחק ייטען...";
+    }
 </script>
