@@ -1,30 +1,12 @@
-import requests, random
+import requests, random, time
 from bs4 import BeautifulSoup
-
-
-class Person:
-    def __init__(self, pid, name, url, category):
-        self.id = pid
-        self.name = name
-        self.url = url
-        self.category = category
-        self.image_url = None
-        self.options = None
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'url': self.url,
-            'category': self.category,
-            'image_url': self.image_url,
-            'options': self.options,
-        }
+from PersonClass import Person
 
 
 class QuizGenerator:
-    def __init__(self, categories_list, config_obj):
+    def __init__(self, categories_list, config_obj, dbhandler):
         self.config = config_obj
+        self.dbhandler = dbhandler
         persons_dict = {}
         self.category_indices = {}
         for category_name in categories_list:
@@ -34,11 +16,11 @@ class QuizGenerator:
             self.category_indices[category_name] = (id_counter, len(persons_dict))
         persons_dict_len = len(persons_dict)
         self.chosen_persons = []
-        for i in range(0, self.config['NumberOfRounds']):
-            pid = self.get_random_person(persons_dict_len)
-            while not self.add_image(persons_dict[pid]) or persons_dict[pid] in self.chosen_persons:
-                pid = self.get_random_person(persons_dict_len)
-            self.chosen_persons.append(persons_dict[pid])
+        # for i in range(0, self.config['NumberOfRounds']):
+        #     pid = self.get_random_person(persons_dict_len)
+        #     while not self.add_image(persons_dict[pid]) or persons_dict[pid] in self.chosen_persons:
+        #         pid = self.get_random_person(persons_dict_len)
+        #     self.chosen_persons.append(persons_dict[pid])
 
         for person in self.chosen_persons:
             success = False
@@ -48,7 +30,8 @@ class QuizGenerator:
             person.options.append(person.name)
             random.shuffle(person.options)
 
-    def get_category_persons(self, url, category, counter):
+    @staticmethod
+    def get_category_persons(url, category, counter):
         page = requests.get(url)
         soup = BeautifulSoup(page.text, 'html.parser')
 
@@ -65,7 +48,10 @@ class QuizGenerator:
         return persons_dict
 
     def add_image(self, person):
-        person_page = requests.get(self.config['BaseURL'] + person.url)
+        time.sleep(2)
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0"}
+        print(f'getting page: {person.name}')
+        person_page = requests.get(self.config['BaseURL'] + person.url, headers=headers)
         soup = BeautifulSoup(person_page.text, 'html.parser')
         meta_tags = soup.find_all('meta')
         for tag in meta_tags:
@@ -74,7 +60,8 @@ class QuizGenerator:
                 return True
         return False
 
-    def get_random_person(self, max_range):
+    @staticmethod
+    def get_random_person(max_range):
         return random.randint(1, max_range)
 
     def get_options(self, category, correct_id):
@@ -86,6 +73,6 @@ class QuizGenerator:
         else:
             return True, rand_ids
 
-
     def get_questions(self):
         return self.chosen_persons
+

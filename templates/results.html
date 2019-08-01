@@ -30,7 +30,6 @@
     for (var sr in results_dict) {
         num_of_questions++;
         var Color = '#009933';
-        //debugger;
         if (results_dict[sr]['result'] == "true") {
             correct_answers++;
             Color = 'blue';
@@ -61,7 +60,6 @@
     }
     var score = Math.round(correct_answers * 100 / num_of_questions);
     var summary = `זיהית נכון ${correct_answers} מתוך ${num_of_questions} תמונות ולכן ציונך הוא: ${score}`;
-    //console.log(summary);
     var summaryElement = document.getElementById("SummaryId");
     summaryElement.innerHTML = summary;
 

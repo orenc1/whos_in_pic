@@ -1,4 +1,4 @@
-import QuizGenerator, json, yaml
+import QuizGenerator, json, yaml, db_handler, db_cacher
 from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
@@ -10,7 +10,7 @@ def game():
     category_selections = []
     for selection in category_selection_raw:
         category_selections.append(selection)
-    quiz = QuizGenerator.QuizGenerator(category_selections, config_obj)
+    quiz = QuizGenerator.QuizGenerator(category_selections, config_obj, dbhandler)
     questions_list = quiz.get_questions()
     jsoned_data = json.dumps([q.serialize() for q in questions_list])
     session['questions'] = jsoned_data
@@ -47,15 +47,31 @@ def home():
     return render_template('home.html', data=json.dumps(config_obj['Categories']))
 
 
+
 if __name__ == '__main__':
+    run_flask = True
     config_obj = None
+    dbhandler = None
+
+    dbhandler = db_handler.DBHandler('postgres', 'P@ssw0rd', '127.0.0.1', 'whoinpic_db')
+    if not dbhandler.connected:
+        print(f"An error occurred while trying to connect to database: {dbhandler.error_msg}")
+        exit(1)
+    dbhandler.create_tables()
     with open("configuration.yaml", 'r', encoding='utf8') as stream:
         try:
             config_obj = yaml.safe_load(stream)
         except yaml.YAMLError as ex:
             print(f'An error occurred reading the configuration file "configuration.yaml": {ex}')
 
-    if config_obj:
+    dbhandler.clear_table('Persons')
+
+    db_cacher = db_cacher.DB_Cacher(config_obj, dbhandler)
+    db_cacher.start_caching()
+
+    if config_obj and run_flask:
         app.config['config'] = config_obj
+        app.config['dbhandler'] = dbhandler
         app.secret_key = 'super secret key'
         app.run(debug=True, host='0.0.0.0', port=8090)
+

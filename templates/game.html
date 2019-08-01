@@ -51,11 +51,11 @@
         $('#person_image_' + p_ix).attr("src",persons[p_ix-1].image_url);
         for (o_ix=1; o_ix < persons[p_ix-1].options.length+1; o_ix++) {            
             //console.log('label[for=person_' + p_ix + '_option_' + o_ix + ']');
-            $('label[for=person_' + p_ix + '_option_' + o_ix + ']').html(JSON.stringify(persons[p_ix-1].options[o_ix-1]));
+            $('label[for=person_' + p_ix + '_option_' + o_ix + ']').html(JSON.stringify(persons[p_ix-1].options[o_ix-1]).replace(/"/g,""));
             var current_id = 'person_' + p_ix.toString() + '_option_' + o_ix.toString();
             //console.log('requested id is: ' + current_id);
 
-            $('#' + current_id).attr('value',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]));
+            $('#' + current_id).attr('value',p_ix.toString() + '_' + JSON.stringify(persons[p_ix-1].options[o_ix-1]).replace(/"/g,""));
             $('#' + current_id).attr('name','question_'+ p_ix);
         }
      }

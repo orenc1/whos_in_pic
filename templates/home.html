@@ -10,9 +10,9 @@
 <h2>יש לבחור בקטגוריה אחת או יותר וללחוץ על "התחל". לאחר מכן יוצגו בפניכם אנשים מתוך הקטגוריות שבחרתם ותצטרכו לזהות מי המפורסמ/ת שמופיע/ה בתמונה.</h2>
 </body>
 <br/><br/><br/>
-<form action = "/game" method = "POST" id="MainFormId">
+<form action = "/game" method = "POST" id="MainFormId" onsubmit="return validateForm()">
     <div id="CategoriesDiv"></div>
-    <input type="submit" value="התחל" onclick="waitMsg()">
+    <input type="submit" value="התחל">
 </form>
 <br/>
 <p id="waitMsgId" style="color:red;"></p>
@@ -24,16 +24,25 @@
 <script src="/static/jquery-3.1.1.min.js"></script>
 <script>
     {% raw %}
-    var CategoryTemplate = '<input type="checkbox" name="{{name}}" value="{{value}}">{{display_name}}<br>';    
+    var CategoryTemplate = '<input id="cb_{{id}}" type="checkbox" name="{{name}}" value="{{value}}">{{display_name}}<br>';    
     {% endraw %}
     categories = {{data|safe}};
+    i = 1;
     for (const [key, value] of Object.entries(categories)) {
-        Category_CB = Mustache.render(CategoryTemplate, {"name": key, "display_name": value.display_name});
+        Category_CB = Mustache.render(CategoryTemplate, {"id": i, "name": key, "display_name": value.display_name});
         $('#CategoriesDiv').append(Category_CB);
+        i++;
     }
 
-
-    function waitMsg() {
-        document.getElementById("waitMsgId").innerHTML = "נא להמתין מספר שניות עד שהמשחק ייטען...";
+    function validateForm() {
+        for (i=1; i <= Object.keys(categories).length; i++) {
+            var checked = document.getElementById(`cb_${i}`).checked;            
+            if (checked) {
+                document.getElementById("waitMsgId").innerHTML = "נא להמתין מספר שניות עד שהמשחק ייטען...";
+                return true;
+            }     
+        }
+        alert("לא בחרת באף קטגוריה. איך נתחיל לשחק?");
+        return false;
     }
 </script>
