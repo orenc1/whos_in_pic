@@ -1,7 +1,7 @@
 --- # Category list for famous people
 BaseURL: https://he.wikipedia.org
 CategoryURL: /w/index.php?title=מיוחד:עץ_קטגוריות&mode=all&target=
-NumberOfRounds: 5
+NumberOfRounds: 6
 Categories:
   Israeli_Actresses:
     display_name: שחקניות ישראליות

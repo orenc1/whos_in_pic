@@ -47,7 +47,6 @@ def home():
     return render_template('home.html', data=json.dumps(config_obj['Categories']))
 
 
-
 if __name__ == '__main__':
     run_flask = True
     config_obj = None
@@ -64,10 +63,9 @@ if __name__ == '__main__':
         except yaml.YAMLError as ex:
             print(f'An error occurred reading the configuration file "configuration.yaml": {ex}')
 
-    dbhandler.clear_table('Persons')
-
-    db_cacher = db_cacher.DB_Cacher(config_obj, dbhandler)
-    db_cacher.start_caching()
+    # dbhandler.clear_table('Persons')
+    # db_cacher = db_cacher.DB_Cacher(config_obj, dbhandler)
+    # db_cacher.start_caching()
 
     if config_obj and run_flask:
         app.config['config'] = config_obj

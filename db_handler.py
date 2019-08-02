@@ -1,4 +1,5 @@
 import psycopg2
+from PersonClass import Person
 
 
 class DBHandler:
@@ -34,9 +35,19 @@ class DBHandler:
         insert_person_query = f"""INSERT INTO Persons (ID, Name, Category, URL, Image_URL, Timestamp)
                                 VALUES ({pid}, '{name}', '{category}', '{url}', '{image_url}', '{timestamp}');"""
 
-        #print(insert_person_query)
         self.execute(insert_person_query)
         print(f'{name} added to db, category: {category}')
+
+    def get_category_persons(self, category):
+        select_persons_query = f"""SELECT * FROM Persons WHERE image_url != '' AND category = '{category}';"""
+        self.cursor.execute(select_persons_query)
+        persons_records = self.cursor.fetchall()
+        persons_list = []
+        for row in persons_records:
+            person = Person(row[0], row[1], row[3], row[2], row[4])
+            persons_list.append(person)
+
+        return persons_list
 
     def execute(self, query):
         self.cursor.execute(query)

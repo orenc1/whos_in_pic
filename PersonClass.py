@@ -1,10 +1,10 @@
 class Person:
-    def __init__(self, pid, name, url, category):
+    def __init__(self, pid, name, url, category, image_url=None):
         self.id = pid
         self.name = name
         self.url = url
         self.category = category
-        self.image_url = None
+        self.image_url = image_url
         self.options = None
 
     def serialize(self):
