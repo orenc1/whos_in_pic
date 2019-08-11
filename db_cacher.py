@@ -19,13 +19,17 @@ class DB_Cacher:
             self.category_indices[category_name] = (id_counter, len(self.persons_dict))
 
         for person in self.persons_dict.values():
+            if "'" in person.name:
+                person.name = person.name.translate(str.maketrans({"'": r"''"}))
+            if self.dbhandler.is_image_already_in_db(person.name):
+                continue
             image_exists = self.add_image(person)
             if not image_exists:
                 person.image_url = ""
 
         # Store collected data in DB
-            if "'" in person.name:
-                person.name = person.name.translate(str.maketrans({"'": r"''"}))
+            if self.dbhandler.person_exists_in_db(person.name):
+                continue # TODO update record in db
             current_time = datetime.datetime.now()
             self.dbhandler.add_person(person.id, person.name, person.category, person.url,
                                       person.image_url, current_time)

@@ -49,6 +49,24 @@ class DBHandler:
 
         return persons_list
 
+    def is_image_already_in_db(self, name):
+        select_query = f"""SELECT image_url FROM Persons WHERE name='{name}';"""
+        self.cursor.execute(select_query)
+        result = self.cursor.fetchall()
+        if result and result[0][0]:
+            return True
+        else:
+            return False
+
+    def person_exists_in_db(self, name):
+        select_query = f"""SELECT name FROM Persons WHERE name='{name}';"""
+        self.cursor.execute(select_query)
+        result = self.cursor.fetchall()
+        if result and result[0][0]:
+            return True
+        else:
+            return False
+
     def execute(self, query):
         self.cursor.execute(query)
         self.connection.commit()
