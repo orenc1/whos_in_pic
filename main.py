@@ -1,4 +1,4 @@
-import QuizGenerator, json, yaml, db_handler, db_cacher, DB_Config
+import QuizGenerator, json, yaml, db_handler, db_cacher, DB_Config, os
 from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
@@ -83,5 +83,6 @@ if __name__ == '__main__':
         app.config['config'] = config_obj
         app.config['dbhandler'] = dbhandler
         app.secret_key = 'super secret key'
-        app.run(debug=True, host='0.0.0.0', port=DB_Config.FLASK_PORT)
+        port = int(os.environ.get('PORT', 8090))
+        app.run(debug=True, host='0.0.0.0', port=port)
 
