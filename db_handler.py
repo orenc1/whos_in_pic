@@ -9,7 +9,7 @@ class DBHandler:
             if workmode == 'Local':
                 self.connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
             else:
-                self.connection = psycopg2.connect(host=host, database=database, sslmode='require')
+                self.connection = psycopg2.connect(host, database=database, sslmode='require')
             self.cursor = self.connection.cursor()
 
         except (Exception, psycopg2.DatabaseError) as error:
