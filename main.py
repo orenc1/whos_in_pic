@@ -1,4 +1,4 @@
-import QuizGenerator, json, yaml, db_handler, db_cacher
+import QuizGenerator, json, yaml, db_handler, db_cacher, DB_Config
 from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
@@ -45,7 +45,7 @@ def result():
 @app.route('/perform_cache', methods=['GET'])
 def perform_cache():
     db_cacher.start_caching()
-    return ('DB is now syncing...')
+    return ('DB has finished syncing.')
 
 @app.route('/')
 def home():
@@ -57,7 +57,14 @@ if __name__ == '__main__':
     config_obj = None
     dbhandler = None
 
-    dbhandler = db_handler.DBHandler('postgres', 'P@ssw0rd', '127.0.0.1', 'whoinpic_db')
+    if DB_Config.work_mode == 'Local':
+        dbhandler = db_handler.DBHandler(DB_Config.DATABASE_URL, DB_Config.work_mode, DB_Config.DATABASE_NAME,
+                                         DB_Config.DATABASE_USER, DB_Config.DATABASE_PASSWORD)
+    elif DB_Config.work_mode == 'Cloud':
+        dbhandler = db_handler.DBHandler(DB_Config.DATABASE_URL, DB_Config.work_mode, DB_Config.DATABASE_NAME)
+    else:
+        print("An error occurred while reading DB Config file.")
+        exit(1)
     if not dbhandler.connected:
         print(f"An error occurred while trying to connect to database: {dbhandler.error_msg}")
         exit(1)
@@ -76,5 +83,5 @@ if __name__ == '__main__':
         app.config['config'] = config_obj
         app.config['dbhandler'] = dbhandler
         app.secret_key = 'super secret key'
-        app.run(debug=True, host='0.0.0.0', port=8090)
+        app.run(debug=True, host='0.0.0.0', port=DB_Config.FLASK_PORT)
 

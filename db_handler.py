@@ -3,10 +3,13 @@ from PersonClass import Person
 
 
 class DBHandler:
-    def __init__(self, user, password, host, database, port=5432):
+    def __init__(self, host, workmode, database, user=None, password=None, port=5432):
         self.connected = False
         try:
-            self.connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
+            if workmode == 'Local':
+                self.connection = psycopg2.connect(user=user, password=password, host=host, port=port, database=database)
+            else:
+                self.connection = psycopg2.connect(host=host, database=database, sslmode='require')
             self.cursor = self.connection.cursor()
 
         except (Exception, psycopg2.DatabaseError) as error:
